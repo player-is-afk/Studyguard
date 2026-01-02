@@ -4,8 +4,10 @@ import os
 
 app = Flask(__name__)
 
-# Local GPT4All model path
-MODEL_PATH = os.path.join("models", "gpt4all-lora-quantized.bin")
+# Path to your local Phi-3 Mini model
+MODEL_PATH = os.path.join("models", "phi-3-mini.bin")
+
+# Initialize GPT4All with local model
 ai_model = GPT4All(model_name=MODEL_PATH, n_threads=os.cpu_count())
 
 SYSTEM_PROMPT = """
@@ -30,16 +32,13 @@ def index():
     response_text = ""
     if request.method == "POST":
         user_input = request.form["question"]
-
-        response = ai_model.chat_completion(
-            messages=[
-                {"role": "system", "content": SYSTEM_PROMPT},
-                {"role": "user", "content": user_input}
-            ]
-        )
-
-        response_text = response.get('message', str(response))
-
+        
+        # Combine system prompt + user input for local model
+        prompt = SYSTEM_PROMPT + "\n\nStudent: " + user_input + "\nStudyGuard AI:"
+        
+        # Generate response from Phi-3 Mini
+        response_text = ai_model.generate(prompt)
+        
     return render_template("index.html", response=response_text)
 
 if __name__ == "__main__":
