@@ -4,10 +4,8 @@ import os
 
 app = Flask(__name__)
 
-# Path to your local Phi-3 Mini model
 MODEL_PATH = os.path.join("models", "phi-3-mini.bin")
 
-# Initialize GPT4All with local model
 ai_model = GPT4All(model_name=MODEL_PATH, n_threads=os.cpu_count())
 
 SYSTEM_PROMPT = """
@@ -33,10 +31,10 @@ def index():
     if request.method == "POST":
         user_input = request.form["question"]
         
-        # Combine system prompt + user input for local model
+       
         prompt = SYSTEM_PROMPT + "\n\nStudent: " + user_input + "\nStudyGuard AI:"
         
-        # Generate response from Phi-3 Mini
+       
         response_text = ai_model.generate(prompt)
         
     return render_template("index.html", response=response_text)
