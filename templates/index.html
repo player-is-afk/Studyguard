@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>StudyGuard AI</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+<div class="app">
+    <header>
+        <h1>StudyGuard AI</h1>
+        <p>An ethical AI study assistant that helps you learn — not cheat.</p>
+    </header>
+
+    <form method="POST" class="chat-box">
+        <textarea name="question" placeholder="Ask a study question…" required></textarea>
+        <button type="submit">Ask StudyGuard</button>
+    </form>
+
+    {% if response %}
+    <div class="response">
+        <h3>Response</h3>
+        <p id="response-text">{{ response }}</p>
+    </div>
+    {% endif %}
+</div>
+
+<script src="/static/script.js"></script>
+</body>
+</html>
