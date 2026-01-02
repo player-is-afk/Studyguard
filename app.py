@@ -1,34 +1,45 @@
 from flask import Flask, render_template, request
 from gpt4all import GPT4All
+import os
 
 app = Flask(__name__)
 
-# Load local AI model (downloads automatically the first time)
-model = GPT4All("gpt4all-falcon-q4_0.gguf")
+# Load GPT4All model (first time it may download ~119MB)
+MODEL_NAME = "ggml-gpt4all-j-v1.3-groovy"
+ai_model = GPT4All(model_name=MODEL_NAME, n_threads=os.cpu_count())
 
-SYSTEM_RULES = """
+SYSTEM_PROMPT = """
 You are StudyGuard AI, an ethical AI study assistant.
 
 Rules:
-- Do NOT give direct answers to homework, tests, or quizzes
-- Teach concepts step by step
-- Ask the student to attempt the problem before continuing
-- Generate practice questions
-- Explain common mistakes
-- Be supportive and encouraging
-"""
+- Do NOT provide direct answers to homework, tests, quizzes, or graded assignments.
+- If a user asks for answers, politely refuse and explain why.
+- Focus on teaching concepts step-by-step.
+- Ask the student to attempt the problem before continuing.
+- Generate practice questions instead of solutions.
+- Explain common mistakes.
+- Be supportive and clear.
+- State uncertainty when relevant.
 
-def studyguard_ai(user_input):
-    prompt = f"{SYSTEM_RULES}\n\nStudent question:\n{user_input}\n\nStudyGuard AI response:"
-    with model.chat_session():
-        return model.generate(prompt, max_tokens=300)
+Goal: Promote learning, not cheating.
+"""
 
 @app.route("/", methods=["GET", "POST"])
 def index():
     response_text = ""
     if request.method == "POST":
         user_input = request.form["question"]
-        response_text = studyguard_ai(user_input)
+
+        # Check for homework/quiz/test keywords
+        lower_input = user_input.lower()
+        if any(keyword in lower_input for keyword in ["homework", "quiz", "test", "assignment"]):
+            response_text = (
+                "I’m here to help you learn, but I won’t give direct answers to graded work. "
+                "Can you try solving it first? I can guide you step-by-step or create practice questions."
+            )
+        else:
+            prompt = f"{SYSTEM_PROMPT}\n\nUser: {user_input}\nAI:"
+            response_text = ai_model.generate(prompt)
 
     return render_template("index.html", response=response_text)
 
