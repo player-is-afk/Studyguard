@@ -1,0 +1,92 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap');
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    background: #0f172a; /* deep academic dark */
+    font-family: 'Inter', sans-serif;
+    color: #e5e7eb;
+}
+
+.app {
+    max-width: 720px;
+    margin: 80px auto;
+    padding: 40px;
+}
+
+header h1 {
+    font-size: 2.2rem;
+    font-weight: 600;
+    margin-bottom: 6px;
+}
+
+header p {
+    color: #9ca3af;
+    margin-bottom: 32px;
+}
+
+.chat-box {
+    background: #020617;
+    border-radius: 16px;
+    padding: 24px;
+    border: 1px solid #1e293b;
+}
+
+textarea {
+    width: 100%;
+    min-height: 120px;
+    background: #020617;
+    color: #e5e7eb;
+    border-radius: 12px;
+    border: 1px solid #1e293b;
+    padding: 16px;
+    font-size: 1rem;
+    resize: none;
+    outline: none;
+}
+
+textarea::placeholder {
+    color: #6b7280;
+}
+
+textarea:focus {
+    border-color: #6366f1;
+}
+
+button {
+    margin-top: 16px;
+    background: #6366f1;
+    color: white;
+    border: none;
+    border-radius: 12px;
+    padding: 12px 20px;
+    font-size: 1rem;
+    font-weight: 500;
+    cursor: pointer;
+}
+
+button:hover {
+    background: #4f46e5;
+}
+
+.response {
+    margin-top: 32px;
+    background: #020617;
+    border-radius: 16px;
+    padding: 24px;
+    border: 1px solid #1e293b;
+}
+
+.response h3 {
+    margin-top: 0;
+    margin-bottom: 12px;
+    color: #e5e7eb;
+}
+
+.response p {
+    line-height: 1.6;
+    color: #d1d5db;
+}
