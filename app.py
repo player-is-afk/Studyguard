@@ -4,7 +4,7 @@ import os
 
 app = Flask(__name__)
 
-# Use the local model
+# Local GPT4All model path
 MODEL_PATH = os.path.join("models", "gpt4all-lora-quantized.bin")
 ai_model = GPT4All(model_name=MODEL_PATH, n_threads=os.cpu_count())
 
@@ -38,7 +38,7 @@ def index():
             ]
         )
 
-        response_text = response['message'] if 'message' in response else str(response)
+        response_text = response.get('message', str(response))
 
     return render_template("index.html", response=response_text)
 
