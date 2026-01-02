@@ -1,3 +1,3 @@
-flask==3.1.2
-gpt4all==2.8.2
-python-dotenv==1.2.1
+flask
+gpt4all
+python-dotenv
